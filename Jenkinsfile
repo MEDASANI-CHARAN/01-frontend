@@ -25,7 +25,7 @@ pipeline {
         stage('Build') {
             steps {
                 sh """
-                    zip -q -r frontend-${appVersion}.zip * -x Jenkinsfile -x frontend-${appVersion}.zip
+                    zip -q -r frontend.zip * -x Jenkinsfile -x frontend.zip
                     ls -ltr
                 """
             }
@@ -45,7 +45,8 @@ pipeline {
                     artifacts: [
                         [artifactId: 'frontend',
                         classifier: '',
-                        file: 'frontend-' + "${appVersion}" + '.zip',
+                       //file: 'frontend-' + "${appVersion}" + '.zip',
+                       file: 'frontend' + '.zip',
                         type: 'zip']
                     ]
                 )
@@ -55,10 +56,10 @@ pipeline {
         stage('Deploy'){
             steps {
                     script {
-                        def params = [
-                      string(name: 'appVersion', value: "${appVersion}")
-                        ]
-                         build job: 'frontend-deployment', parameters: params, wait: false
+                        //def params = [
+                      //string(name: 'appVersion', value: "${appVersion}")
+                        //]
+                         build job: 'frontend-deployment', wait: false
                     }
                 }
             }
