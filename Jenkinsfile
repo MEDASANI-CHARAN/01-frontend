@@ -9,7 +9,7 @@ pipeline {
                 // ansiColor('xterm')
             }
     environment {
-        def appVersion = ''
+        //def appVersion = ''
         nexusUrl = 'jenkins-nexus.daws2025.online:8081'
     }
     stages {
