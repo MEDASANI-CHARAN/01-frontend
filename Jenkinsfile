@@ -9,23 +9,23 @@ pipeline {
                 // ansiColor('xterm')
             }
     environment {
-        //def appVersion = ''
+        def appVersion = ''
         nexusUrl = 'jenkins-nexus.daws2025.online:8081'
     }
     stages {
-        // stage('read the version'){
-        //     steps {
-        //         script {
-        //         def packageJson = readJSON file: 'package.json'
-        //         appVersion = packageJson.version
-        //         echo "application version: $appVersion"
-        //      }
-        //     }
-        // } 
+        stage('read the version'){
+            steps {
+                script {
+                def packageJson = readJSON file: 'package.json'
+                appVersion = packageJson.version
+                echo "application version: $appVersion"
+             }
+            }
+        }  
         stage('Build') {
             steps {
                 sh """
-                    zip -q -r frontend.zip * -x Jenkinsfile -x frontend.zip
+                    zip -q -r frontend-${appVersion}.zip * -x Jenkinsfile -x frontend-${appVersion}.zip
                     ls -ltr
                 """
             }
@@ -39,14 +39,13 @@ pipeline {
                     protocol: 'http',
                     nexusUrl: "${nexusUrl}",
                     groupId: 'com.expense',
-                    //version: "${appVersion}",
+                    version: "${appVersion}",
                     repository: 'frontend',
                     credentialsId: 'nexus-auth',
                     artifacts: [
                         [artifactId: 'frontend',
                         classifier: '',
-                       //file: 'frontend-' + "${appVersion}" + '.zip',
-                       file: 'frontend' + '.zip',
+                        file: 'frontend-' + "${appVersion}" + '.zip',
                         type: 'zip']
                     ]
                 )
@@ -56,10 +55,10 @@ pipeline {
         stage('Deploy'){
             steps {
                     script {
-                        //def params = [
-                      //string(name: 'appVersion', value: "${appVersion}")
-                        //]
-                         build job: 'frontend-deployment', wait: false
+                        def params = [
+                      string(name: 'appVersion', value: "${appVersion}")
+                        ]
+                         build job: 'frontend-deployment', parameters: params, wait: false
                     }
                 }
             }
