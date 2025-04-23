@@ -13,15 +13,15 @@ pipeline {
         nexusUrl = 'jenkins-nexus.daws2025.online:8081'
     }
     stages {
-        stage('read the version'){
-            steps {
-                script {
-                def packageJson = readJSON file: 'package.json'
-                appVersion = packageJson.version
-                echo "application version: $appVersion"
-             }
-            }
-        }  
+        // stage('read the version'){
+        //     steps {
+        //         script {
+        //         def packageJson = readJSON file: 'package.json'
+        //         appVersion = packageJson.version
+        //         echo "application version: $appVersion"
+        //      }
+        //     }
+        // }  
         stage('Build') {
             steps {
                 sh """
