@@ -31,27 +31,27 @@ pipeline {
             }
         }
 
-        // stage('Nexus Artifact Upload') {
-        //     steps {
-        //        script {
-        //             nexusArtifactUploader(
-        //             nexusVersion: 'nexus3',
-        //             protocol: 'http',
-        //             nexusUrl: "${nexusUrl}",
-        //             groupId: 'com.expense',
-        //             version: "${appVersion}",
-        //             repository: 'frontend',
-        //             credentialsId: 'nexus-auth',
-        //             artifacts: [
-        //                 [artifactId: 'frontend',
-        //                 classifier: '',
-        //                 file: 'frontend-' + "${appVersion}" + '.zip',
-        //                 type: 'zip']
-        //             ]
-        //         )
-        //      }
-        //   }
-        // } 
+        stage('Nexus Artifact Upload') {
+            steps {
+               script {
+                    nexusArtifactUploader(
+                    nexusVersion: 'nexus3',
+                    protocol: 'http',
+                    nexusUrl: "${nexusUrl}",
+                    groupId: 'com.expense',
+                    version: "${appVersion}",
+                    repository: 'frontend',
+                    credentialsId: 'nexus-auth',
+                    artifacts: [
+                        [artifactId: 'frontend',
+                        classifier: '',
+                        file: 'frontend-' + "${appVersion}" + '.zip',
+                        type: 'zip']
+                    ]
+                )
+             }
+          }
+        } 
         stage('Deploy'){
             steps {
                     script {
