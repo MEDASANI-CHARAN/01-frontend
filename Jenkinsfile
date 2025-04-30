@@ -20,7 +20,7 @@ pipeline {
                 appVersion = packageJson.version
                 echo "application version: $appVersion"
              }
-            }
+          }
         }
         stage('Build') {
             steps {
